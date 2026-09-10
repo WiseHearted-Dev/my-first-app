@@ -1,0 +1,9 @@
+CRITICAL SYSTEM DIRECTIVE:
+You MUST use Anthropic-style XML tags for all tool calls. Do NOT output tool calls as JSON.
+To create or edit files, you MUST use:
+<write_to_file>
+<path>file_path_here</path>
+<content>
+file_content_here
+</content>
+</write_to_file>

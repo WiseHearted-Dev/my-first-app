@@ -12,6 +12,7 @@
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -44,20 +45,23 @@
             transform: translateX(-50%);
             display: none;
         }
+        .gif-container {
+            display: none;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <h1>My First Local App</h1>
-    <button class="action-button" onclick="showToast()">Click Me</button>
-    <div class="toast" id="toast">Action performed!</div>
+    <button class="action-button" onclick="showGif()">Click Me</button>
+    <div class="gif-container" id="gifContainer">
+        <img src="https://example.com/leodnardo-di-caprio-toasting.gif" alt="Leonardo DiCaprio Toasting">
+    </div>
 
     <script>
-        function showToast() {
-            const toast = document.getElementById('toast');
-            toast.style.display = 'block';
-            setTimeout(() => {
-                toast.style.display = 'none';
-            }, 3000);
+        function showGif() {
+            const gifContainer = document.getElementById('gifContainer');
+            gifContainer.style.display = 'block';
         }
     </script>
 </body>

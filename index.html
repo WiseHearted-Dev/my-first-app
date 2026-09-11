@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Theme Page</title>
+    <title>My First Local App</title>
     <style>
         body {
             background-color: #333;
@@ -32,10 +32,33 @@
             cursor: pointer;
             border-radius: 5px;
         }
+        .toast {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 5px;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <h1>Welcome to the Dark Theme Page</h1>
-    <button class="action-button">Click Me</button>
+    <h1>My First Local App</h1>
+    <button class="action-button" onclick="showToast()">Click Me</button>
+    <div class="toast" id="toast">Action performed!</div>
+
+    <script>
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+    </script>
 </body>
 </html>

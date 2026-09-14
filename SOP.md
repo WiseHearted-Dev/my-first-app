@@ -1,7 +1,11 @@
-# Standard Operating Procedure (SOP): Local AI Dev Environment
+# Standard Operating Procedure (SOP): Local AI-Assisted Development Environment
 
 ## Objective
 Maintain a stable, local-first AI coding environment on an Intel i7 MacBook Pro (16GB RAM) using VS Code, Ollama, and Aider, avoiding the JSON parsing/tool-calling crashes common with GUI extensions.
+
+## 🛠️ Overview & Architecture
+
+This repository records the configuration and workflows used to establish a privacy-focused, zero-cost, local AI coding assistant integrated directly into VS Code.
 
 ## System Requirements & Architecture
 - **Hardware**: Intel i7 MacBook Pro, 16GB RAM
@@ -14,18 +18,38 @@ Maintain a stable, local-first AI coding environment on an Intel i7 MacBook Pro 
 | Component | Function |
 |-----------|----------|
 | Ollama    | Hosts and serves the local qwen2.5-coder:7b model via an HTTP API. |
+| Qwen2.5-Coder:7B | State-of-the-art open coding model optimized for code understanding, generation, and multi-file reasoning. |
 | Aider     | Translates natural language prompts into code changes using plain-text diffs instead of brittle JSON tool schemas. |
 | VS Code   | Serves as the primary workspace, text editor, terminal host, and Git manager. |
 | GitHub    | Stores cloud backups and tracks commit history. |
 
 ## Initial Setup Instructions
 
-### Step 1: Install & Verify Ollama
-1. Start Ollama and pull the target coding model:
+### Prerequisites
+1. Verify Python 3.10+:
     ```bash
+    python3 --version
+    ```
+2. Verify Git:
+    ```bash
+    git --version
+    ```
+
+### Step 1: Install & Verify Ollama
+1. Install Ollama:
+    ```bash
+    curl -fsSL https://ollama.com/install.sh | sh
+    ```
+
+2. Start Ollama and pull the target coding model:
+    ```bash
+    # Start Ollama service (if running in background/headless)
+    ollama serve
+
+    # Pull Qwen2.5-Coder model:
     ollama pull qwen2.5-coder:7b
     ```
-2. Verify the model is available:
+3. Verify the model is available:
     ```bash
     ollama list
     ```
@@ -89,3 +113,22 @@ GUI extensions (such as ZooCode or Roo Code) relying on native JSON function-cal
 
 - **Command Not Found Error**: If aider fails to run directly, invoke it using `python3 -m aider`.
 - **Fixing Bad Code**: If a generated result breaks the app, type `/undo` in the Aider prompt immediately to revert to the previous working Git state.
+- **Aider hangs/stalls when querying `ollama/qwen2.5-coder:7b`**: Root Cause: Large context window payloads (repository maps and large file additions) exceed local VRAM/RAM allocation, or unhandled Ollama server timeout during cold start.
+**Resolution Protocol:**
+1. **Interrupt Hanging Execution:** Press `Ctrl+C` to break out of the hanging generation process and restore the prompt loop.
+2. **Verify Server Health:**
+   ```bash
+   ollama list
+   ```
+3. **Optimize Edit Format & Context Size:**
+   When running models under 14B parameters, using the `--edit-format whole` flag reduces parsing overhead and improves model adherence:
+   ```bash
+   OLLAMA_API_BASE=http://localhost:11434 aider \
+     --model ollama/qwen2.5-coder:7b \
+     --edit-format whole
+   ```
+## 💡 Engineering Key Takeaways & Skills Demonstrated
+
+* **Local AI Infrastructure:** Built a fully offline, privacy-compliant AI development workflow.
+* **Prompt Engineering & Context Management:** Managed context windows via Aider's repository mapping, `/ask` commands, and `/read` modes.
+* **System Troubleshooting:** Diagnosed local API timeout bottlenecks, VRAM constraints, and execution interrupts (`Ctrl+C` lifecycle).

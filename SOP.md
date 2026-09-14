@@ -113,20 +113,21 @@ GUI extensions (such as ZooCode or Roo Code) relying on native JSON function-cal
 
 - **Command Not Found Error**: If aider fails to run directly, invoke it using `python3 -m aider`.
 - **Fixing Bad Code**: If a generated result breaks the app, type `/undo` in the Aider prompt immediately to revert to the previous working Git state.
-- **Aider hangs/stalls when querying `ollama/qwen2.5-coder:7b`**: Root Cause: Large context window payloads (repository maps and large file additions) exceed local VRAM/RAM allocation, or unhandled Ollama server timeout during cold start.
+- **Aider hangs/stalls when querying `ollama/qwen2.5-coder:7b`**: 
+  - **Root Cause:** Large context window payloads (repository maps and large file additions) exceed local VRAM/RAM allocation, or unhandled Ollama server timeout during cold start.
   - **Resolution Protocol:**
-    -1. **Interrupt Hanging Execution:** Press `Ctrl+C` to break out of the hanging generation process and restore the prompt loop.
-    -2. **Verify Server Health:**
-   ```bash
-   ollama list
-   ```
-    -3. **Optimize Edit Format & Context Size:**
-   When running models under 14B parameters, using the `--edit-format whole` flag reduces parsing overhead and improves model adherence:
-   ```bash
-   OLLAMA_API_BASE=http://localhost:11434 aider \
-     --model ollama/qwen2.5-coder:7b \
-     --edit-format whole
-   ```
+    - 1. **Interrupt Hanging Execution:** Press `Ctrl+C` to break out of the hanging generation process and restore the prompt loop.
+    - 2. **Verify Server Health:**
+      ```bash
+      ollama list
+      ```
+    - 3. **Optimize Edit Format & Context Size:** When running models under 14B parameters, using the `--edit-format whole` flag reduces parsing overhead and improves model adherence:
+      ```bash
+      OLLAMA_API_BASE=http://localhost:11434 aider \
+        --model ollama/qwen2.5-coder:7b \
+        --edit-format whole
+      ```
+
 ## 💡 Engineering Key Takeaways & Skills Demonstrated
 
 * **Local AI Infrastructure:** Built a fully offline, privacy-compliant AI development workflow.

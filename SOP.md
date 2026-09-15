@@ -14,6 +14,8 @@ This repository records the configuration and workflows used to establish a priv
 - **AI Coding Agent**: Aider (CLI running via VS Code Integrated Terminal)
 - **Version Control**: Git & GitHub
 
+**Note**: When working ensure your laptop is plugged in to power. Ollama is resource intensive and will eat up your battery if not plugged in.
+
 ## Component Roles
 | Component | Function |
 |-----------|----------|
@@ -40,6 +42,7 @@ This repository records the configuration and workflows used to establish a priv
     ```bash
     curl -fsSL https://ollama.com/install.sh | sh
     ```
+**Note**: You can install online manually as well. Google Ollama.
 
 2. Start Ollama and pull the target coding model:
     ```bash
@@ -121,7 +124,7 @@ GUI extensions (such as ZooCode or Roo Code) relying on native JSON function-cal
       ```bash
       ollama list
       ```
-    - 3. **Optimize Edit Format & Context Size:** When running models under 14B parameters, using the `--edit-format whole` flag reduces parsing overhead and improves model adherence:
+    - 3. **(Optional) Optimize Edit Format & Context Size:** When running models under 14B parameters, using the `--edit-format whole` flag reduces parsing overhead and improves model adherence:
       ```bash
       OLLAMA_API_BASE=http://localhost:11434 aider \
         --model ollama/qwen2.5-coder:7b \
